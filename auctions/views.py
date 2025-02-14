@@ -63,3 +63,15 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+def listing(request, id):
+    listing = Listing.objects.get(pk=id)
+    print(listing.title)
+    return render(request, "auctions/listing.html" 
+        ,{
+            "title": listing.title,
+            "description": listing.description,
+            "url": listing.url,
+            "bid": listing.bid,
+        }
+    )

@@ -5,9 +5,9 @@ from django.db import models
 class User(AbstractUser):
     pass
 
-class Auction():
-    pass
-
+# class Auction():
+#     pass
+ 
 class Listing(models.Model):
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=240)
@@ -16,15 +16,19 @@ class Listing(models.Model):
     bid = models.FloatField()
 
     def __str__(self):
-        return f"{self.title}"
+        return f"{self.title} - {self.bid}"
 
 class Bid():
+    # listing key
     pass
+
 
 class Comment():
+    # listing key
+    # users key
+    # comment
     pass
 
-# auction 
-# listings
+# auction listings
 # bids
 # comments made on auction listings

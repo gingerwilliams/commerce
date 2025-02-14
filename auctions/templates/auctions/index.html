@@ -4,7 +4,14 @@
     <h2>Active Listings</h2>
     <ul>
         {% for listing in listings %}
-            <li><a href="#">{{ listing.title }}</a></li>
+            <li>
+                <a href="{% url 'listing' listing.id %}">
+                    <img src="{{listing.url}}" width="150">
+                    {{ listing.title }}
+                </a>
+                <p>{{ listing.description }}</p>
+                <p>{{ listing.bid }}</p>
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}
