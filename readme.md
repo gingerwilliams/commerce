@@ -38,3 +38,13 @@ from .models import Listing
 admin.site.register(Listing)
 ```
 
+- Update views to consume table data
+```
+from .models import Listing
+
+def index(request, ):
+    return render(request, "auctions/index.html", {
+        "listings": Listing.objects.all()
+    })
+```
+
