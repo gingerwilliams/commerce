@@ -75,3 +75,22 @@ def listing(request, id):
             "bid": listing.bid,
         }
     )
+
+def new(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        description = request.POST['description']
+        category = request.POST['category']
+        url = request.POST['url']
+        bid = request.POST['bid']
+
+        new_listing = Listing(
+            title=title,
+            description=description,
+            url=url,
+            bid=bid
+        )
+        new_listing.save()
+
+        print(title)
+    return render(request, "auctions/new.html")

@@ -48,3 +48,15 @@ def index(request, ):
     })
 ```
 
+- Create new Listing / Update database from form
+```
+def new(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+
+        new_listing = Listing(title=title)
+        new_listing.save()
+
+    return render(request, "auctions/new.html")
+```
+
