@@ -5,7 +5,7 @@ from django.utils.timezone import now as Now
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Listing, Comment
+from .models import User, Listing, Comment, Bid
 
 
 def index(request, ):
@@ -68,8 +68,9 @@ def register(request):
 def listing(request, id):
     listing = Listing.objects.get(pk=id)
     comments = Comment.objects.filter(listing=listing)
+    bid = Bid.objects.filter(listing=listing)
+    max_bid = bid[len(bid) -1]
 
-    print(listing.title)
     if request.method == 'POST':
         comment = request.POST['comment']
 
@@ -83,8 +84,8 @@ def listing(request, id):
             "title": listing.title,
             "description": listing.description,
             "url": listing.url,
-            "bid": listing.bid,
             "comments": comments,
+            "bid": max_bid.bid,
             "id": id
         }
     )

@@ -2,7 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.functions import Now
 
-
 class User(AbstractUser):
     pass
 
@@ -14,19 +13,22 @@ class Listing(models.Model):
     description = models.CharField(max_length=240)
     category = models.CharField(max_length=64)
     url = models.CharField(max_length=240)
-    bid = models.FloatField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f"{self.title} - {self.bid}"
+        return f"{self.title}"
 
-class Bid():
-    # listing key
-    pass
-
+class Bid(models.Model):
+    bid = models.FloatField()
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="bids")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.listing} - {self.bid}"
 
 class Comment(models.Model):
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="listing")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.CharField(max_length=260)
     date = models.DateTimeField(db_default=Now())
 
