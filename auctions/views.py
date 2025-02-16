@@ -1,10 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
+from django.utils.timezone import now as Now
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Listing
+from .models import User, Listing, Comment
 
 
 def index(request, ):
@@ -66,13 +67,25 @@ def register(request):
 
 def listing(request, id):
     listing = Listing.objects.get(pk=id)
+    comments = Comment.objects.filter(listing=listing)
+
     print(listing.title)
+    if request.method == 'POST':
+        comment = request.POST['comment']
+
+        if request.user.is_authenticated:
+            user = request.user
+            new_comment = Comment(comment=comment, listing=listing, user=user, date=Now())
+            new_comment.save()
+
     return render(request, "auctions/listing.html" 
         ,{
             "title": listing.title,
             "description": listing.description,
             "url": listing.url,
             "bid": listing.bid,
+            "comments": comments,
+            "id": id
         }
     )
 

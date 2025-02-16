@@ -4,6 +4,28 @@
     <h2>{{title}}</h2>
     <img src="{{url}}" width="150">
     <p>{{description}}</p>
-    <p><strong>Bid: {{ bid }}</strong></p>
+
+    <div class="btn-group">
+        <button disabled class="btn btn-secondary">{{ bid }}</button>
+    </div>
     
+    <hr>
+    {% if user.is_authenticated %}
+        <form action="{% url 'listing' id %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="comment" placeholder="comment..."/>
+            <button type="submit" class="btn btn-primary">Comment</button>
+        </form>
+    {% endif %}
+    <ul>
+        {% for comment in comments %}
+        <li>
+            <span>{{ comment.user }}:</span>
+            <span>{{ comment.comment }}</span>
+            <span>{{ comment.date }}</span>
+        </li>
+        {% endfor %}
+
+    </ul>
+
 {% endblock %}

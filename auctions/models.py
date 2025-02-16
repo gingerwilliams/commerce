@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.functions import Now
 
 
 class User(AbstractUser):
@@ -23,12 +24,11 @@ class Bid():
     pass
 
 
-class Comment():
-    # listing key
-    # users key
-    # comment
-    pass
+class Comment(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="listing")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    comment = models.CharField(max_length=260)
+    date = models.DateTimeField(db_default=Now())
 
-# auction listings
-# bids
-# comments made on auction listings
+    def __str__(self):
+        return f"{self.user} - {self.date}"
